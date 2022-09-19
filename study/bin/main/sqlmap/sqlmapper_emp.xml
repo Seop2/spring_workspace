@@ -69,4 +69,49 @@
 			comm = #{comm}
 		WHERE empno = #{empno}
 	</update>
+	<select id="selectEmpByName" resultType="Empvo">
+		SELECT
+			empno,
+			ename,
+			job,
+			sal	
+		FROM emp
+		WHERE ename = #{ename}
+	</select>
+	<update id="updateEmpComm">
+		UPDATE emp
+		SET
+			comm = #{comm}
+		WHERE
+			deptno = #{deptno}
+	</update>
+	<select id="selectEmpSal" resultType="Empvo">
+		SELECT
+			empno,
+			ename,
+			job,
+			date_format(hiredate,'%Y') AS hiredate
+		FROM emp
+		WHERE
+			sal >=#{sal}
+	</select>
+	<select id="selectEmpJoinDept" resultType="map">
+		SELECT 
+		e.EMPNO AS "사원번호",
+		e.ENAME AS "사원이름",
+		d.DNAME AS "부서이름"
+		FROM EMP AS e
+		INNER JOIN DEPT AS d
+		ON e.DEPTNO  = d.DEPTNO 
+	</select>
+	<select id="selectEmpJoinDept2" resultType="map">
+		select 
+			e.EMPNO as "사원번호",
+			e.ENAME as "사원이름",
+			d.DNAME as "부서이름",
+			d.LOC as "부서위치"
+		from emp as e
+		inner join dept as d
+		on e.DEPTNO  = d.DEPTNO 
+	</select>
 </mapper>

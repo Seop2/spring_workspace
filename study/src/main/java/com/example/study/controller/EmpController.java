@@ -2,6 +2,7 @@ package com.example.study.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -225,5 +226,49 @@ public class EmpController {
 		int row = empMapper.UpdateEmp(vo);
 		return row;
 	}
-	
+	//1. 사원이름으로 검색해서 사원번호, 사원이름, 직책, 급여 조회 하기(Like x) [select]
+	@GetMapping("/emp/name/{ename}")
+	public List<Empvo> callEmpName(@PathVariable String ename)
+	{
+		
+		return empMapper.selectEmpByName(ename);
+	}
+	//2. 부서번호가 10번인 사원들 comm 100으로 update 
+	//1번
+//	@GetMapping("db/emp/{ename}"){x} = {ename} = {empno} 다 똑같이 인식한다
+//	public Empvo callSelectEmp(@PathVariable String ename)
+//	{
+//		Empvo vo = empMapper.selectEmpName(ename);
+//		return vo;
+//	}
+	//2번
+	@PatchMapping("/up/comm")
+	public int callupdateEmpComm(@RequestBody Empvo vo)
+	{
+		int row = empMapper.updateEmpComm(vo);
+		return row;
+	}
+	//3. 급여가 2000이상인 모든 사원의 번호,이름,직업, 입사날짜를 조회하시오
+	//단, 입사날짜는 년도만 보이게 출력하시오
+	//쿼리 스트링으로 해보기(?)
+	//결과 여러개 나올경우 List사용
+	@GetMapping("/sal")
+	public List<Empvo> callEmpSal(@RequestParam int sal)
+	{
+		
+		return empMapper.selectEmpSal(sal);
+	}
+	//java의 최상위 class는 object!
+	//object는 모든 데이터타입 형변환이 가능하다!
+	@GetMapping("/emp/dname")//HashMap 공부!
+	public List<Map<String, Object>>callEmpDname(){//object는 모든 타입 다 받음
+		return empMapper.selectEmpJoinDept();
+	}
+	@GetMapping("/emp/loc")
+	public List<Map<String, Object>>callEmpLoc()
+	{
+		//문제: 사원번호, 사원이름, 부서번호, 부서이름, 부서위치를 조회
+		
+		return empMapper.selectEmpJoinDept2();
+	}
 }
