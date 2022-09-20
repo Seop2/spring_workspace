@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.example.study.mapper.EmpMapper2">
+	<select id="selectAllEmp" resultType="Empvo">
+		SELECT
+			empno,
+			ename,
+			sal,
+			hiredate,
+			job,
+			deptno
+		FROM emp
+	</select>
+	<insert id="InsertEmp">
+		INSERT INTO emp
+		(
+			empno,
+			ename,
+			job,
+			sal,
+			comm,
+			hiredate,
+			deptno
+		)
+		VALUES
+		(
+			#{empno},
+			#{ename},
+			#{job},
+			#{sal},
+			#{comm},
+			NOW(),
+			#{deptno}
+		)
+	</insert>
+	<update id="updateEmp">
+		UPDATE emp
+		SET
+			ename = #{ename}.
+			job = #{job}
+			sal = #{sal}
+		WHERE 
+			empno = #{empno}
+	</update>
+	<delete id="DeleteEmp">
+		DELETE	 
+		FROM emp
+		WHERE
+			empno = #{empno}
+	</delete>
+	<select id="selectEmpJoinDept" resultType="map">
+		SELECT 
+		e.EMPNO AS "사원번호",
+		e.ENAME AS "사원이름",
+		d.DNAME AS "부서이름"
+		FROM EMP AS e
+		INNER JOIN DEPT AS d
+		ON e.DEPTNO  = d.DEPTNO 
+	</select>
+	<select id="selectEmpAllJoinDept" resultType="map">
+		SELECT 
+		e.EMPNO AS "사원번호",
+		e.ENAME AS "사원이름",
+		e.SAL AS "급여",
+		e.JOB AS "직책",
+		d.DEPTNO AS "부서번호",
+		d.LOC AS "부서위치",
+		d.DNAME AS "부서이름"
+		FROM EMP AS e
+		INNER JOIN DEPT AS d
+		ON e.DEPTNO  = d.DEPTNO 
+	</select>
+</mapper>
