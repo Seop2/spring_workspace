@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>CRUD 연습</title>
+    </head>
+    <body>
+        <h2>사원 데이터 입력</h2>
+        <div>
+            <input id="empno" type="number" placeholder="사원 번호를 입력해주세요">
+            <input id="ename" type="text" placeholder="사원 이름을 입력해주세요">
+            <input id="job" type="text" placeholder="사원 직책를 입력해주세요">
+            <input id="sal" type="number" placeholder="사원 급여를 입력해주세요">
+            <input id="comm" type="number" placeholder="사원 보너스를 입력해주세요">
+            <input id="hiredate" type="date" placeholder="사원 입사날짜를 입력해주세요">
+            <input id="deptno" type="number" placeholder="부서 번호를 입력해주세요">
+
+        </div>
+        <div>
+            <button onclick="doJoin()">사원 등록</button>
+        </div>
+        <h2>사원 데이터 삭제</h2>
+        <div>
+            <button onclick="doDelete()">사원 삭제</button>
+        </div>
+        <div>
+            <input id="d_empno" type="number" placeholder="사원번호 입력...">
+        </div>
+    </body>
+    <script
+    src="https://code.jquery.com/jquery-3.6.0.js"
+    integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+    crossorigin="anonymous">
+    </script>
+    <script>
+        function doJoin()
+        {
+            var empno = $("#empno").val();//id가 empno인 input에 값을 가져온다
+            var ename = $("#ename").val();
+            var job = $("#job").val();
+            var sal = $("#sal").val();
+            var comm = $("#comm").val();
+            var hiredate = $("#hiredate").val();
+            var deptno = $("#deptno").val();
+            console.log("입력한 사원번호는 =>"+empno);
+            console.log("입력한 사원번호는 =>"+ename);
+            console.log("입력한 사원번호는 =>"+job);
+            console.log("입력한 사원번호는 =>"+sal);
+            console.log("입력한 사원번호는 =>"+comm);
+            console.log("입력한 사원번호는 =>"+hiredate);
+            console.log("입력한 사원번호는 =>"+deptno);
+
+
+            var jsonData = {
+                "empno":empno,
+                "ename":ename,
+                "job":job,
+                "sal":sal,
+                "comm":comm,
+                "hiredate":hiredate,
+                "deptno":deptno
+            };
+            //@CrossOrigin이 있어야 함
+            //contentType: 서버에 보낼 데이터 타입
+            //dataType: 서버에 응답 결과 데이터 타입
+            //data:서버에 보낼 데이터
+            //success: 요청 성공
+            $.ajax({
+                url: "http://localhost:8080/api/v1/emp",
+                type:"POST",
+                contentType:"application/json",
+                dataType:"json",
+                data: JSON.stringify(jsonData),
+                success:function(response){
+                    if(response>0)
+                    {
+                        alert("사원이 등록되었습니다");
+                    }
+                }
+            });
+
+        }
+        function doDelete(){
+            var empno = $("#d_empno").val();
+            if(confirm("정말로 삭제 하시겠습니까?")){
+                $.ajax({
+                    url: "http://localhost:8080/api/v1/emp/"+empno,
+                    type:"DELETE",
+                    
+                    dataType:"json",
+                    
+                    success:function(response){
+                        if(response>0)
+                        {
+                            alert("사원이 삭제되었습니다");
+                        }
+                    }
+                });
+
+            }
+        }
+    </script>
+</html>
