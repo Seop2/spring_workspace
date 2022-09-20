@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!--id는 중복x-->
+    <input id="name" type="text" placeholder="이름 입력">
+    <input id="age" type="text" placeholder="나이 입력">
+    <input id="hobby" type="text" placeholder="취미 입력">
+    <input id="location" type="text" placeholder="사는곳 입력">
+    <button onclick="getName()">이름 확인</button>
+    <button onclick="getAge()">나이 확인</button>
+    <button onclick="getHobby()">취미 확인</button>
+    <!--버튼을 클릭했을때 getName이라는 함수를 호출하겠다-->
+</body>
+<!--script태그가 body아래에 있는 이유
+    html부터 실행하고 script를 실행하라는 의미!
+-->
+<script>
+    /*자바스크립트 함수 특징
+    1.리턴타입이 없다
+    2.함수에 파라미터값이 있으면, 파라미터값을 꼭 써주지 않아도 된다.
+    */
+    
+    function getName()
+    {
+        //document.getElementById("name").value:아이디가 name인 태그에 값을 가져옴!
+        // var age = document.getElementById("age").value;
+        // console.log("나이는:"+age);
+        // var hb = document.getElementById("hobby").value;
+        // console.log("취미는:"+hb);
+        var value = document.getElementById("name").value;//바닐라 js문법
+        console.log(value);//java의 println
+        var lo = document.getElementById("location").value;
+        console.log("사는곳은:"+lo);
+    }
+    function getAge()
+    {
+        //문제1. 나이 확인 버튼에 getAge함수를  호출할수있게 로직을 수정하시오!
+        //문제2. id가 age인 태그값을출력하시오.
+        var age = document.getElementById("age").value;
+        console.log("나이는:"+age);
+        if(age>=30)
+        {
+            console.log("계란 한판 추가요!");
+        }
+        if(age<=30&&age>=20)
+        {
+            console.log("20대!");
+        }
+    }
+    function getHobby()
+    {
+        var hb = document.getElementById("hobby").value;
+        console.log("취미는:"+hb);
+        if(hobby == "등산")//java에서  문자열비교는 equals였으나, js는 == 연산자사용!
+        {
+            console.log("취미는 등산입니다.");
+        }
+        if(hobby == "운동")
+        {
+            console.log("취미는 운동입니다.");
+        }
+    }
+</script>
+</html>

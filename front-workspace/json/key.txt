@@ -1,0 +1,6 @@
+        /*
+          name : 영화제목
+          rank : 관객 수 순위
+          createdAt : 개봉 날짜
+          salesRevenue : 판매액
+          attendance : 관객수 */

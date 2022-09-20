@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+        .cotainer {
+            margin: 100px auto;
+            height: auto;
+            width: 200px;
+            background-color: #efefef;
+        }
+        div{
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>회원가입</h2>
+        <div>
+            <input id="id"type="text" placeholder="아이디">
+        </div>
+        <div>
+            <input id="pw1" type="password" placeholder="비밀번호">
+        </div>
+        <div>
+            <input id="pw2" type="password" placeholder="비밀번호재입력">
+        </div>
+        <div>
+            <button onclick="doJoin()">회원 가입</button>
+        </div>
+    </div>
+    
+</body>
+<script>
+    // 자바스크립트 버전4 or 버전5
+    // 현재는 9 or 10까지 나옴
+    function doJoin()
+    {
+        // var x = "홍길동";
+        // var y = 10;
+        // const PI = 3.14;
+        //알람창
+        //문제1. input아이디에 입력된 값을 alert창에 출력!
+        var id = document.getElementById("id").value;
+        // alert(id);
+        // alert("Hello World!");
+        //문제2. 비밀번호와 비밀번호 재입력 콘솔console.log()출력
+        var pw1 = document.getElementById("pw1").value;
+        var pw2 = document.getElementById("pw2").value;
+        console.log(pw1);
+        console.log(pw2);
+        //문제3. 비밀번호와 비밀번호 재입력이 다르면 비밀번호가 일치하지않습니다. alert출력
+        if(pw1!=pw2)
+        {
+            alert("비밀번호가 일치하지않습니다.");
+            return false;//alert 창을 추가로 띄우지 않기위해
+        }
+        //자바스크립트는  기본적으로 문자 길이를 제공해준다.
+        //console.log(pw1.length);
+        if(pw1.length<5)
+        {
+            alert("비밀번호는 최소 6글자 이상 입력해야함");
+            return false;
+        }
+    }
+</script>
+</html>
