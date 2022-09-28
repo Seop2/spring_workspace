@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.dw.emp.mapper.EmpMapper">
+	<select id="selectEmpByDeptno" resultType="EmpVO">
+		SELECT
+			empno,
+			ename,
+			sal,
+			comm
+		FROM emp
+		WHERE deptno = #{deptno}
+	</select>
+	<update id="updateEmpComm">
+		UPDATE emp
+		SET comm = sal * 0.1
+		WHERE deptno = #{deptno}
+	</update>
+	<delete id="deleteEmp">
+		DELETE
+			
+		FROM emp
+		WHERE empno = #{empno}
+	</delete>
+	<select id="selectEmp" resultType="map">
+		SELECT 
+			a.empno
+			, a.ename
+			, a.job
+			, a.sal
+			, a.hiredate
+			, a.deptno
+			, b.dname
+  		FROM emp AS a
+ 		INNER JOIN dept AS b
+    	ON a.deptno = b.deptno
+    	ORDER BY a.empno DESC
+	</select>
+	<select id="selectEmpStatistics" resultType="map">
+	SELECT
+		COUNT(empno) as "empCount",
+		(SELECT ROUND(avg(sal)) FROM emp) as "empSalAvg",
+		(SELECT COUNT(deptno) FROM dept) as "deptCount",
+		(SELECT ROUND(SUM(comm)) FROM emp) as "empCommSum"
+	FROM emp
+	</select>
+	<!-- 동적 쿼리 작성해보기 -->
+	<insert id="EmpInsert">
+		INSERT INTO emp
+		(
+			empno
+			<if test="ename != null">
+				,ename				
+			</if>
+			<if test="job != null">
+				,job
+			</if>
+			<if test="sal != null">
+				,sal
+			</if>
+			<if test="comm != null">
+				,comm
+			</if>
+				,hiredate
+			
+		)
+		VALUES
+		(
+			#{empno}
+			<if test="empno != null">
+				,#{ename}
+			</if>
+			<if test="job != null">
+				,#{job}
+			</if>
+			<if test="sal != null">
+				,#{sal}
+			</if>
+			<if test="comm != null">
+				,#{comm}
+			</if>	
+				,NOW()
+		)
+	</insert>
+	<!-- 특정 사원 조회 -->
+	<select id="selectEmpByEmpno" resultType="com.dw.emp.vo.EmpVO">
+		SELECT
+			empno,
+			ename,
+			job,
+			sal,
+			comm
+		FROM emp
+		WHERE empno = #{empno}
+	</select>
+	<!-- 사원 정보 수정 -->
+	<update id="updateEmp">
+		update emp 
+		set 
+			ename = #{ename},
+			job = #{job},
+			sal = #{sal},
+			comm = #{comm}
+		where EMPNO = #{empno};
+	
+	</update>
+</mapper>
