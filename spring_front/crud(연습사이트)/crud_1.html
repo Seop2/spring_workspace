@@ -4,11 +4,63 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
         <title>CRUD 연습</title>
     </head>
     <body>
-        <h2>사원 데이터 입력</h2>
-        <div>
+        <h1>Spring연동 CRUD연습하기</h1>
+        <nav class="menu-box-1">
+            <ul>
+                <li>
+                    <a href="#">EmpController</a>
+                    <ul>
+                        <li><a href="#">@GetMapping</a></li>
+                        <li><a href="#">@PostMapping</a></li>
+                        <li><a href="#">@DeleteMapping</a></li>
+                        <li><a href="#">@PatchMapping</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">EmpMapper</a>
+                    <ul>
+                        <li><a href="#">EmpSelectAll(IF)</a></li>
+                        <li><a href="#">EmpSelect(IF)</a></li>
+                        <li><a href="#">EmpInsert(IF)</a></li>
+                        <li><a href="#">EmpDelete(IF)</a></li>
+                        <li><a href="#">EmpUpdate(IF)</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">vo</a>
+                    <ul>
+                        <li><a href="#">Empvo</a></li>
+                        <li><a href="#">Deptvo</a></li>
+                        <li><a href="#">GET/SET</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">sqlmap</a>
+                    <ul>
+                        <li><a href="#">EmpSelectAll</a></li>
+                        <li><a href="#">EmpSelect</a></li>
+                        <li><a href="#">EmpInsert</a></li>
+                        <li><a href="#">EmpDelete</a></li>
+                        <li><a href="#">EmpUpdate</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">springBoot연동</a>
+                    <ul>
+                        <li><a href="#">@SpringBootApplication</a></li>
+                        <li><a href="#">@RestController</a></li>
+                        <li><a href="#">@CrossOrigin</a></li>
+                        <li><a href="#">@RequestMapping</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <div class="container">
+            <h2>사원 데이터 입력</h2>         
             <input id="empno" type="number" placeholder="사원 번호를 입력해주세요">
             <input id="ename" type="text" placeholder="사원 이름을 입력해주세요">
             <input id="job" type="text" placeholder="사원 직책를 입력해주세요">
@@ -16,70 +68,66 @@
             <input id="comm" type="number" placeholder="사원 보너스를 입력해주세요">
             <input id="hiredate" type="date" placeholder="사원 입사날짜를 입력해주세요">
             <input id="deptno" type="number" placeholder="부서 번호를 입력해주세요">
+            <div>
+                <button onclick="doJoin()">사원 등록</button>
+            </div>
+            
+            <h2>사원 데이터 삭제</h2>
+            <div>
+                <input id="d_empno" type="number" placeholder="사원번호 입력...">
+            </div>
+            <div>
+                <button onclick="doDelete()">사원 삭제</button>
+            </div>
+            <h2>사원번호로 사원조회</h2>
+            <div>
+                <input id="s_empno" type="number" placeholder="사원번호 입력....">
+                <p id="info"></p>
+            </div>
+            <div>
+                <button onclick="doSelectByEmpno()">사원 조회</button>
+            </div>
+            <h2>사원 수정</h2>
+            <div>
+                <input id="u_empno"type="number" placeholder="사원 번호 입력">
+                <input id="u_ename"type="text" placeholder="사원 이름 입력">
+                <input id="u_job"type="text" placeholder="사원 직책 입력">
+                <input id="u_sal"type="number" placeholder="사원 급여 입력">
+                
+                
+            </div>
+            <div >
+                <button onclick="doUpdate()">사원 정보 수정</button>
+            </div>
+            <h2>사원 전체 조회</h2>
+            <div class="tablebtn">
+                <button onclick="doSelectAll()">전체사원 조회</button>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>사원번호</th>
+                        <th>사원이름</th>
+                        <th>급여</th>
+                        <th>근무지</th>
+                        <th>부서이름</th>
+                        <th>직책</th>
+                    </tr>
+                </thead>
+                <tbody id="data">
 
-        </div>
-        <div>
-            <button onclick="doJoin()">사원 등록</button>
+                </tbody>
+            </table>
+            
         </div>
         
-        <h2>사원 데이터 삭제</h2>
-        <div>
-            <input id="d_empno" type="number" placeholder="사원번호 입력...">
-        </div>
-        <div>
-            <button onclick="doDelete()">사원 삭제</button>
-        </div>
-        <h2>사원 조회(전체조회아님)</h2>
-        <div>
-            <input id="s_empno" type="number" placeholder="사원번호 입력....">
-            <p id="info"></p>
-        </div>
-        <div>
-            <button onclick="doSelectByEmpno()">사원 조회</button>
-        </div>
-        <h2>사원 수정</h2>
-        <div>
-            <input id="u_empno"type="number" placeholder="사원 번호 입력">
-            <input id="u_ename"type="text" placeholder="사원 이름 입력">
-            <input id="u_job"type="text" placeholder="사원 직책 입력">
-            <input id="u_sal"type="number" placeholder="사원 급여 입력">
-            
-            
-        </div>
-        <div>
-            <button onclick="doUpdate()">사원 정보 수정</button>
-        </div>
-        <h2>사원 전체 조회</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>사원번호</th>
-                    <th>사원이름</th>
-                    <th>급여</th>
-                    <th>근무지</th>
-                    <th>부서이름</th>
-                    <th>직책</th>
-                </tr>
-            </thead>
-            <tbody id="data">
-
-            </tbody>
-        </table>
-        <div>
-            <button onclick="doSelectAll()">전체사원 조회</button>
-        </div>
     </body>
-        
-        <script>
-    src="https://code.jquery.com/jquery-3.6.0.js"
-    integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
-    crossorigin="anonymous"
-    </script>
+    <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
     <script>
         function doSelectAll()
         {
             $.ajax({
-                    url: "http://localhost:8080/api/v1/emp/deptAll",
+                    url: "http://localhost:8080/api/v1/emp",
                     type:"GET",
                     dataType:"json",
                     

@@ -9,60 +9,60 @@
 </head>
 <body>
     <div class="container">
-        <!-- 사원 작성 팝업 -->
+        <!-- 사원 추가 팝업 -->
         <div class="write-popup">
             <div class="editor">
                 <div class="input-box">
-                    <label for="sal">사원 번호 : </label>
-                    <input id="sal" type="number" placeholder="급여를 입력하세요...">
+                    <label for="i_empno">사원 번호 : </label>
+                    <input id="i_empno" type="number" placeholder="사원번호를 입력하세요...">
                 </div>
                 <div class="input-box">
-                    <label for="ename">사원 이름 : </label>
-                    <input id="ename" type="text" placeholder="이름을 입력하세요...">
+                    <label for="i_ename">사원 이름 : </label>
+                    <input id="i_ename" type="text" placeholder="이름을 입력하세요...">
                 </div>
                 <div class="input-box">
-                    <label for="job">담당 업무 : </label>
-                    <input id="job" type="text" placeholder="담당 업무를 입력하세요...">
+                    <label for="i_job">담당 업무 : </label>
+                    <input id="i_job" type="text" placeholder="담당 업무를 입력하세요...">
                 </div>
                 <div class="input-box">
-                    <label for="sal">급여 : </label>
-                    <input id="sal" type="number" placeholder="급여를 입력하세요...">
+                    <label for="i_sal">급여 : </label>
+                    <input id="i_sal" type="number" placeholder="급여를 입력하세요...">
                 </div>
                 <div class="input-box">
-                    <label for="sal">보너스 : </label>
-                    <input id="sal" type="number" placeholder="급여를 입력하세요...">
+                    <label for="i_comm">보너스 : </label>
+                    <input id="i_comm" type="number" placeholder="보너스를 입력하세요...">
                 </div>
                 <div class="btn-area">
                     <a href="#" class="btn-cancel">취소</a>
-                    <a id="empSubmit" href="#" class="btn-success">등록</a>
+                    <a id="empSubmit" href="#" class="btn-success" onclick="setEmp()">등록</a>
                 </div>
             </div>
         </div>
-        <!-- 사원 추가 -->
+        <!-- 사원 수정 -->
         <div class="update-popup">
             <div class="editor">
                 <div class="close">
                     <a href="#" class="btn-close">닫기</a>
                 </div>
                 <div class="input-box">
-                    <label for="sal">사원 번호 : </label>
-                    <input id="sal" type="number" value="7899">
+                    <label for="u_empno">사원 번호 : </label>
+                    <input id="u_empno" type="number" value="7899" readonly>
                 </div>
                 <div class="input-box">
-                    <label for="ename">사원 이름 : </label>
-                    <input id="ename" type="text" value="현상원">
+                    <label for="u_ename">사원 이름 : </label>
+                    <input id="u_ename" type="text" value="현상원">
                 </div>
                 <div class="input-box">
-                    <label for="job">담당 업무 : </label>
-                    <input id="job" type="text" value="개발자">
+                    <label for="u_job">담당 업무 : </label>
+                    <input id="u_job" type="text" value="개발자">
                 </div>
                 <div class="input-box">
-                    <label for="sal">급여 : </label>
-                    <input id="sal" type="number" value="100">
+                    <label for="u_sal">급여 : </label>
+                    <input id="u_sal" type="number" value="100">
                 </div>
                 <div class="input-box">
-                    <label for="sal">보너스 : </label>
-                    <input id="sal" type="number" value="0">
+                    <label for="u_comm">보너스 : </label>
+                    <input id="u_comm" type="number" value="0">
                 </div>
                 <div class="btn-area">
                     <input id="boardIdHidden" type="hidden">
@@ -112,7 +112,7 @@
          <div class="cardBox">
              <div class="card">
                  <div>
-                    <div id="studentsCnt" class="numbers">1,400</div>
+                    <div id="studentsCnt" class="numbers"></div>
                     <div class="cardName">사원 수</div>
                  </div>
                  <div class="iconBx">
@@ -121,7 +121,7 @@
              </div>
              <div class="card">
                 <div>
-                   <div id="boardCnt" class="numbers">500</div>
+                   <div id="boardCnt" class="numbers"></div>
                    <div class="cardName">사원 평균급여</div>
                 </div>
                 <div class="iconBx">
@@ -130,7 +130,7 @@
             </div>
             <div class="card">
                 <div>
-                   <div id="writerCnt" class="numbers">300</div>
+                   <div id="writerCnt" class="numbers"></div>
                    <div class="cardName">부서 수</div>
                 </div>
                 <div class="iconBx">
@@ -139,7 +139,7 @@
             </div>
             <div class="card">
                 <div>
-                   <div id="viewsCnt" class="numbers">2,800</div>
+                   <div id="viewsCnt" class="numbers"></div>
                    <div class="cardName">사원 보너스 합</div>
                 </div>
                 <div class="iconBx">
@@ -165,8 +165,8 @@
                             <th>부서 이름</th>
                          </tr>
                      </thead>
-                     <tbody>
-                         <tr onclick="getBoard()">
+                     <tbody id = "empData">
+                         <!-- <tr onclick="getBoard()">
                             <td>7499</td>
                             <td>ALLEN</td>
                             <td>SALESMAN</td>
@@ -180,7 +180,7 @@
                             <td>CLERK</td>
                             <td>800</td>
                             <td>1980-12-17</td>
-                            <td>RESEARCH</td>
+                            <td>RESEARCH</td> -->
                          </tr>                    
                      </tbody>
                  </table>
@@ -210,10 +210,12 @@
         list.forEach((item) => {item.classList.remove('hovered')});
         this.classList.add('hovered');
     }
+    
     list.forEach((item) => {item.addEventListener('mouseover',activeLink)});
 
     function getBoard(){
         $('.update-popup').css('display', 'block');
     }
 </script>
+<script src="script.js"></script>
 </html>
