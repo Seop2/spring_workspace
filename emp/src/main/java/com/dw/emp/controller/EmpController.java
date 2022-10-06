@@ -6,18 +6,22 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dw.emp.sevice.EmpService;
 import com.dw.emp.vo.EmpVO;
+import com.github.pagehelper.PageInfo;
 
 @CrossOrigin //누구나 자원을 요청할 수 았게 권한 해제
 @RestController
 @RequestMapping("/api/v1")
+//@RequsetMapping-> 전역변수 개념
 public class EmpController {
 	/*
 	 * M(model == Mapper(Service))  V  (view)  C(controller) MVC패턴,
@@ -38,11 +42,14 @@ public class EmpController {
 		//get요청을 하면서도 추가,삭제,수정이 있을수도 있다
 		return service.getEmpList(deptno);
 	}
-	
+	//전체 사원 조회
+	//PageInfo:페이징 처리 도와주는 라이브러리!
 	@GetMapping("/emp")
-	public List<Map<String, Object>> callEmpSelect()
+	public PageInfo <Map<String, Object>> callEmpPages(@RequestParam int page)
 	{
-		return service.getEmpList();
+		List<Map<String, Object>>list = service.getEmpPageList(page);
+		int navigatePages = 5;//한 블럭에 보여줄 페이지 수(네이버웹툰은 1블록에 10페이지
+		return new PageInfo<Map<String, Object>>(list,navigatePages);
 	}
 	@GetMapping("/emp/statistics")
 	public Map<String, Object> callStatistics(){
@@ -58,5 +65,17 @@ public class EmpController {
 	public EmpVO CallEmpByEmpno(@PathVariable int empno)
 	{
 		return service.getEmpByEmpno(empno);
+	}
+	//사원 정보 수정
+	@PatchMapping("/emp")
+	public int CallEmpUpdate(@RequestBody EmpVO vo) {
+		
+		return service.getEmpByUpdate(vo);
+	}
+	//특정 회원 탈퇴
+	@PatchMapping("/emp/empno/{empno}")
+	public int CallFireEmp(@PathVariable int empno)
+	{
+		return service.getFireEmp(empno);
 	}
 }

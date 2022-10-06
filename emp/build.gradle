@@ -26,6 +26,9 @@ dependencies {
 	runtimeOnly 'mysql:mysql-connector-java'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '5.2.2'
+	//page(페이징 처리를 도와주는 라이브러리)
+	implementation group: 'com.github.pagehelper', name: 'pagehelper-spring-boot-starter', version: '1.4.2'
 }
 
 tasks.named('test') {

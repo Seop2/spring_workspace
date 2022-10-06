@@ -33,7 +33,8 @@
   		FROM emp AS a
  		INNER JOIN dept AS b
     	ON a.deptno = b.deptno
-    	ORDER BY a.empno DESC
+    	WHERE a.is_use = true
+    	ORDER BY a.empno ASC
 	</select>
 	<select id="selectEmpStatistics" resultType="map">
 	SELECT
@@ -47,38 +48,46 @@
 	<insert id="EmpInsert">
 		INSERT INTO emp
 		(
-			empno
+			is_use,
+			empno,
 			<if test="ename != null">
-				,ename				
-			</if>
+				ename				
+			</if>,
 			<if test="job != null">
-				,job
-			</if>
+				job
+			</if>,
 			<if test="sal != null">
-				,sal
-			</if>
+				sal
+			</if>,
 			<if test="comm != null">
-				,comm
+				comm
+			</if>,
+				hiredate,
+			<if test="deptno != null">
+				deptno
 			</if>
-				,hiredate
 			
 		)
 		VALUES
 		(
-			#{empno}
-			<if test="empno != null">
-				,#{ename}
-			</if>
+			true,
+			#{empno},
+			<if test="ename != null">
+				#{ename}
+			</if>,
 			<if test="job != null">
-				,#{job}
-			</if>
+				#{job}
+			</if>,
 			<if test="sal != null">
-				,#{sal}
-			</if>
+				#{sal}
+			</if>,
 			<if test="comm != null">
-				,#{comm}
+				#{comm}
 			</if>	
-				,NOW()
+				,NOW(),
+			<if test="deptno != null">
+				#{deptno}
+			</if>
 		)
 	</insert>
 	<!-- 특정 사원 조회 -->
@@ -103,4 +112,20 @@
 		where EMPNO = #{empno};
 	
 	</update>
+	<!-- 회원탈퇴(삭제)DELETE(X) -->
+	<update id="fireEmp">
+		UPDATE emp
+		SET
+			is_use = false
+		WHERE empno = #{empno}
+	</update>
+	<!--이미가입된 사원인지 여부 체크  -->
+	<!-- 이미 있다면 1 없으면 0 -->
+		<select id="selectCountByEmpno" resultType="Integer">
+		SELECT
+			count(*)
+    	FROM emp
+    	WHERE empno = #{empno}	
+	</select>
+	
 </mapper>

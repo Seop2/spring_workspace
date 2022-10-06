@@ -21,4 +21,11 @@ public interface EmpMapper {
 	public Map<String, Object>selectEmpStatistics();
 	
 	public EmpVO selectEmpByEmpno(int empno);
+	//특정 사원 수정
+	public int updateEmp(EmpVO vo);
+	//특정 사원 회원 탈퇴
+	public int fireEmp(int empno);
+	
+	//이미 가입된 사원인지 아닌지 체크
+	public int selectCountByEmpno(int empno);
 }

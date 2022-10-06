@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.dw.emp.mapper.EmpMapper;
 import com.dw.emp.vo.EmpVO;
+import com.github.pagehelper.PageHelper;
 
 @Service //비즈니스 계층(=고객 요구사항)을 여기서 구현하겠다.....
 //서비스 로직 = 비즈니스 로직
@@ -48,7 +49,9 @@ public class EmpService {
 		return null;//rows가 0이면 null리턴
 	}
 	
-	public List<Map<String, Object>> getEmpList(){
+	public List<Map<String, Object>> getEmpPageList(int page){
+		int pageSize = 10;//한페이지에 보여줄 게시물 수
+		PageHelper.startPage(page, pageSize);
 		return mapper.selectEmp();
 	}
 	public Map<String, Object> getEmpStatistics(){
@@ -56,7 +59,12 @@ public class EmpService {
 	}
 
 	public int EmpInsert(EmpVO vo) {
-		
+		//이미 가입된 사원번호인지 체크하기
+		int empno = vo.getEmpno();//사원번호를 불러온다
+		int count = mapper.selectCountByEmpno(empno);//이미 가입된 회원 쿼리 로직 호출
+		if(count >0) {//만약에 count가 1이면 이미 가입된 사원
+			return 0;
+		}
 		return mapper.EmpInsert(vo);
 	}
 	//특정 사원 조회
@@ -64,4 +72,20 @@ public class EmpService {
 	{
 		return mapper.selectEmpByEmpno(empno);
 	}
+	//특정 사원 정보 수정
+	public int getEmpByUpdate(EmpVO vo)
+	{
+		return mapper.updateEmp(vo);
+	}
+//	//특정 회원 탈퇴(삭제)
+//	public int getFireEmp(int empno)
+//	{
+//		return mapper.fireEmp(empno);
+//	}
+	//특정 회원 탈퇴(삭제)
+	public int getFireEmp(int empno) {
+		// TODO Auto-generated method stub
+		return mapper.fireEmp(empno);
+	}
+	
 }
