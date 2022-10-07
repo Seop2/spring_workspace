@@ -36,6 +36,11 @@ public class DeptService {
 	{
 		return mapper.SelectDeptJoin();
 	}
+	//특정 부서...
+	public DeptVO getDeptByDeptno(int deptno)
+	{
+		return mapper.selectdeptBydeptno(deptno);
+	}
 //	public List <Map<String, Object>> getDeptPageList(int page){
 //		int pageSize = 5;
 //		PageHelper.startPage(page, pageSize);

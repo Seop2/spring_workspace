@@ -57,6 +57,11 @@ public class DeptController {
 	public List<Map<String, Object>>CallDeptAll(){
 		return deptService.getDeptAll();
 	}
+	@GetMapping("/dept/deptno/{deptno}")
+	public DeptVO CallDeptByDeptno(@PathVariable int deptno)
+	{
+		return deptService.getDeptByDeptno(deptno);
+	}
 //	
 //	//부서 수정
 	@PatchMapping("/dept")

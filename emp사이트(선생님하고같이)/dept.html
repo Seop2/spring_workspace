@@ -26,7 +26,7 @@
                 </div>
                 <div class="btn-area">
                     <a href="#" class="btn-cancel">취소</a>
-                    <a href="#" class="btn-success">등록</a>
+                    <a href="#" class="btn-success"onclick="setdept()">등록</a>
                 </div>
             </div>
         </div>
@@ -50,8 +50,8 @@
                 </div>
                 <div class="btn-area">
                     <input id="boardIdHidden" type="hidden">
-                    <a id="contentUpdate" href="#" class="btn-update">수정</a>
-                    <a id="contentDelete" href="#" class="btn-delete">삭제</a>
+                    <a id="contentUpdate" href="#" class="btn-update" onclick="updateDept()">수정</a>
+                    <a id="contentDelete" href="#" class="btn-delete" onclick="deptDel()">삭제</a>
                 </div>
             </div>
         </div>
@@ -97,7 +97,7 @@
              <div class="recentOrders">
                  <div class="cardHeader">
                      <h2>부서 목록</h2>
-                     <a href="#" id="deptAdd" class="btn">부서 추가</a>
+                     <a href="#" id="deptAdd" class="btn" onclick="setdept()">부서 추가</a>
                  </div>
                  <table>
                      <thead>

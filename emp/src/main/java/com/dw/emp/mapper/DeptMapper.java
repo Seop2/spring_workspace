@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.dw.emp.vo.DeptVO;
+import com.dw.emp.vo.EmpVO;
 
 @Mapper
 public interface DeptMapper {
@@ -28,5 +29,6 @@ public interface DeptMapper {
 		public int deleteDept(int deptno);
 		//부서조회
 		public List <Map<String,Object>> SelectDeptJoin();
-		
+		//특정 부서...
+		public DeptVO selectdeptBydeptno(int deptno);
 }
