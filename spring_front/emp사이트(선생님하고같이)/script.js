@@ -1,6 +1,6 @@
 //사원 통계 정보 불러오기
 getStatistics();//함수 호출
-getEmp();//함수 호출
+getEmp(1);//함수 호출
 
 function getStatistics(){
     $.ajax({
@@ -24,7 +24,7 @@ function setEmp(){
     var job = $("#i_job").val();
     var sal = $("#i_sal").val();
     var comm = $("#i_comm").val();
-    
+    var deptno = $("#i_deptno").val();
     console.log("입력한 사원번호는 =>"+empno);
     console.log("입력한 사원이름은 =>"+ename);
     console.log("입력한 직책은 =>"+job);
@@ -56,14 +56,19 @@ function setEmp(){
         $("#i_comm").focus();
         return false;
     }
+    if(deptno == ""){
+        alert("부서번호를 입력하세요");
+        $("#i_deptno").focus();
+        return false;
+    }
 
     var jsonData = {
         "empno":empno,
         "ename":ename,
         "job":job,
         "sal":sal,
-        "comm":comm
-        
+        "comm":comm,
+        "deptno":deptno,
     };
     //@CrossOrigin이 있어야 함
     //contentType: 서버에 보낼 데이터 타입
@@ -81,33 +86,48 @@ function setEmp(){
             if(response>0){
                 alert("사원이 등록되었습니다.");
                 location.reload();//자바스크립트에서 제공해주는 새로고침
+
+            }
+            else{
+                alert("이미 가입된 사원번호입니다. 🤷‍♂️")
             }
             
         }
     });
 }
 //전체 사원 조회하는 함수
-function getEmp(){
+function getEmp(pageNum){
     $.ajax({
-        url: "http://localhost:8080/api/v1/emp",
+        url: "http://localhost:8080/api/v1/emp?page="+pageNum,
         type:"GET",
         dataType:"json",
         success:function(response){
+            $('#empData').empty();
+            $('.pagination').empty();
             var html = "";
+            console.log(response)
             //for문을 이용해서 배열 출력하기
-            for(var i=0; i<response.length; i++)
+            for(var i=0; i<response.list.length; i++)
             {
-                //부서이름이 SALES인 사원만 출력하기
-                // if(response[i].dname =='SALES')
-                // {
-                //     console.log(response[i]);
-                // }
+                html += '<tr onclick="getEmpByEmpno('+response.list[i].empno+')"><td>'+response.list[i].empno+'</td><td>'+response.list[i].ename+'</td><td>'+response.list[i].job+'</td><td>'+response.list[i].sal+'</td><td>'+response.list[i].hiredate+'</td><td>'+response.list[i].dname+'</td></tr>';
                 //사원목록에 사원 데이터 바인딩(==사원목록 HTML에 데이터 보여주기)
                 //tbody태그 id: empData에 바인딩 하기!
-                html += '<tr onclick="getEmpByEmpno('+response[i].empno+')"><td>'+response[i].empno+'</td><td>'+response[i].ename+'</td><td>'+response[i].job+'</td><td>'+response[i].sal+'</td><td>'+response[i].hiredate+'</td><td>'+response[i].dname+'</td></tr>';
 
             }
-            $("#empData").append(html);//바인딩 작업
+            $("#empData").append(html);//table바인딩 작업
+
+            var paginationHtml = '';
+            if(response.hasPreviousPage){//이전버튼 여부 확인
+                paginationHtml += '<a onclick="getEmp('+(pageNum-1)+')">Previous</a>';
+            }
+            for(var i=0; i<response.navigatepageNums.length; i++){//총 보여줄 페이지
+                var page = response.navigatepageNums[i];
+                paginationHtml += '<a onclick="getEmp('+page+')">'+page+'</a>'
+            }
+            if(response.hasNextPage){
+                paginationHtml += '<a onclick="getEmp('+(pageNum+1)+')">Next</a>';
+            }
+            $('.pagination').append(paginationHtml)//페이지 바인딩 작업
         }
     });
 }
@@ -126,6 +146,7 @@ function getEmpByEmpno(empno){
         
         success:function(response){
             console.log(response);
+            
             $('.update-popup').css('display','block');
             $('#u_empno').val(response.empno)
             $('#u_ename').val(response.ename)
@@ -135,4 +156,61 @@ function getEmpByEmpno(empno){
 
         }
     });
+}
+//사원 정보 수정(insert랑 같다)
+function updateEmp(){
+    var empno = $('#u_empno').val();
+    var ename = $('#u_ename').val();
+    var job = $('#u_job').val();
+    var sal = $('#u_sal').val();
+    var comm = $('#u_comm').val();
+    var jsonData = {
+        "empno":empno,
+        "ename":ename,
+        "job":job,
+        "sal":sal,
+        "comm":comm
+        
+    };
+    
+    $.ajax({
+        url: "http://localhost:8080/api/v1/emp",
+        type:"PATCH",
+        contentType:"application/json",
+        data: JSON.stringify(jsonData),
+        dataType:"json",
+        
+        success:function(response){
+            if(response>0){
+                alert("수정완료!");
+                location.reload();
+            }
+            
+        }
+    });
+}
+//사원 삭제
+//데이터는 곧 삭제
+//실제로 기업에서는 데이터를 삭제하지 않고, 삭제 여부 컬럼을 추가해서
+//탈퇴한 회원은 y 현재 회원은 n으로 관리한다
+function fireEmp(){
+    var empno = $('#u_empno').val();
+    var ename = $('#u_ename').val();
+    
+    console.log("클릭한 사원번호는?: "+ empno);
+    $.ajax({
+        url: "http://localhost:8080/api/v1/emp/empno/"+empno,
+        type:"PATCH",
+        dataType:"json",
+        
+        success:function(response){
+            alert(ename+" 님이 회원탈퇴하셨습니다");
+            //DB에서   
+        }
+    });
+}
+//엑셀 다운로드
+function downloadExcelFile(){
+    console.log("EXCEL 다운");
+    location.href = "http://localhost:8080/excel/download";
 }

@@ -32,6 +32,10 @@
                     <label for="i_comm">보너스 : </label>
                     <input id="i_comm" type="number" placeholder="보너스를 입력하세요...">
                 </div>
+                <div class="input-box">
+                    <label for="i_deptno">부서번호 : </label>
+                    <input id="i_deptno" type="number" placeholder="부서번호를 입력하세요...">
+                </div>
                 <div class="btn-area">
                     <a href="#" class="btn-cancel">취소</a>
                     <a id="empSubmit" href="#" class="btn-success" onclick="setEmp()">등록</a>
@@ -64,10 +68,14 @@
                     <label for="u_comm">보너스 : </label>
                     <input id="u_comm" type="number" value="0">
                 </div>
+                <div class="input-box">
+                    <label for="u_deptno">부서번호 : </label>
+                    <input id="u_deptno" type="number" value="10">
+                </div>
                 <div class="btn-area">
                     <input id="boardIdHidden" type="hidden">
-                    <a id="contentUpdate" href="#" class="btn-update">수정</a>
-                    <a id="contentDelete" href="#" class="btn-delete">삭제</a>
+                    <a id="contentUpdate" href="#" class="btn-update" onclick="updateEmp()">수정</a>
+                    <a id="contentDelete" href="#" class="btn-delete" onclick="fireEmp()">삭제</a>
                 </div>
             </div>
         </div>
@@ -80,13 +88,13 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="index.html">
                         <span class="icon"><ion-icon name="home-outline"></ion-icon></span>
                         <span class="title">사원 목록</span>                
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="dept.html">
                         <span class="icon"><ion-icon name="person-outline"></ion-icon></span>
                         <span class="title">부서 목록</span>                
                     </a>
@@ -152,7 +160,8 @@
              <div class="recentOrders">
                  <div class="cardHeader">
                      <h2>사원 목록</h2>
-                     <a href="#" class="btn">사원 추가</a>
+                     <a href="#" id="Excel" class="btn" style="background-color:#19ce60;" onclick="downloadExcelFile()">엑셀다운로드</a>
+                     <a href="#" id="addEmp" class="btn" onclick="setEmp()">사원 추가</a>
                  </div>
                  <table>
                      <thead>
@@ -166,24 +175,19 @@
                          </tr>
                      </thead>
                      <tbody id = "empData">
-                         <!-- <tr onclick="getBoard()">
-                            <td>7499</td>
-                            <td>ALLEN</td>
-                            <td>SALESMAN</td>
-                            <td>1600</td>
-                            <td>1981-02-20</td>
-                            <td>SALES</td>
-                         </tr>
-                         <tr onclick="getBoard()">
-                            <td>7369</td>
-                            <td>SMITH</td>
-                            <td>CLERK</td>
-                            <td>800</td>
-                            <td>1980-12-17</td>
-                            <td>RESEARCH</td> -->
-                         </tr>                    
+                                           
                      </tbody>
                  </table>
+                 <!-- 페이징 처리하는 HTML-->
+                 <div class="pagination">
+                    <!-- <a href="">Previous</a>
+                    <a href="">1</a>
+                    <a href="">2</a>
+                    <a href="">3</a>
+                    <a href="">4</a>
+                    <a href="">5</a>
+                    <a href="">Next</a> -->
+                 </div>
              </div>
          </div>
     </div>
@@ -196,7 +200,8 @@
       crossorigin="anonymous"
     ></script>
 <script>
-    $('.btn').click(function(){
+    
+    $('#addEmp').click(function(){
         $('.write-popup').css('display', 'block');
     });
     $('.btn-cancel').click(function(){
