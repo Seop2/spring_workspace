@@ -38,7 +38,7 @@ public class DeptController {
 	@DeleteMapping("/dept/{deptno}")
 	public int DelectDept(@PathVariable int deptno) {
 	
-		return 0;
+		return deptService.getDeleteDept(deptno);
 	}
 //	//부서 전체 조회
 //	@GetMapping("/dept")

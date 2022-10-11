@@ -52,7 +52,10 @@
 	
 	</update>
 	<!-- 부서 삭제 -->
-	
-	
+	<delete id="deleteDept">
+	DELETE		
+		FROM dept
+	WHERE deptno = #{deptno}
+	</delete>
 	
 </mapper>
