@@ -44,3 +44,5 @@ src/main/resources:
 	데이터베이스 연결 정보 (id, password)
 	sql, css, images,javascript
 Footer
+
+![image](https://user-images.githubusercontent.com/57839278/195001764-fe99da9f-a5ea-43ce-bfc0-48025ac439fd.png)
