@@ -3,6 +3,8 @@ package com.dw.emp.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,6 +51,9 @@ public class EmpController {
 	{
 		List<Map<String, Object>>list = service.getEmpPageList(page);
 		int navigatePages = 5;//한 블럭에 보여줄 페이지 수(네이버웹툰은 1블록에 10페이지
+		
+		
+		//192.168.0.74
 		return new PageInfo<Map<String, Object>>(list,navigatePages);
 	}
 	@GetMapping("/emp/statistics")
