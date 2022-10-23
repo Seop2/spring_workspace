@@ -18,7 +18,8 @@ Spring 으로 데이터베이스 연동하는 방법
 1. gradle에 데이터베이스 라이브러리 추가
 //데이터베이스 라이브러리 ->  jdbc.jar
 1-1 구글에 maven mysql 검색
-1-2(https://mvnrepository.com)접속
+1-2(https://mvnrepository.com)
+접속
 1-3 mysql gradle용 복사
 1-4 build.gradle에 붙여넣기
 1-5 mvnrepository에서 mybatis검색
