@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="title" content="IoT 관제 시스템" />
+    <meta property="article:author" content="leejinseop" />
+    <meta property="og:type" content="website" />
+    <link rel="stylesheet" href="style.css" />
+    <title>관제 시스템</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="nav">
+        <div class="item">드론1</div>
+        <div class="item">드론2</div>
+        <div class="item">드론3</div>
+        <div class="item">드론4</div>
+        <div class="item">드론5</div>
+      </div>
+      <div id="kakao-map" class="map"></div>
+    </div>
+  </body>
+  <!-- 카카오 자바스크립트 사용  -->
+  <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2e311f82f9bcf9fd1df6185931071908"></script>
+  <script>
+    initMap();
+    //맵 초기화 함수
+    function initMap() {
+      var mapContainer = document.getElementById('kakao-map'), // 지도를 표시할 div
+        mapOption = {
+          center: new kakao.maps.LatLng(36.3286904, 127.4229992), // 지도의 중심좌표
+          level: 8, // 지도의 확대 레벨
+        };
+
+      var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+      // 마커가 표시될 위치입니다
+      var markerPosition = new kakao.maps.LatLng(36.3286904, 127.4229992);
+
+      // 마커를 생성합니다
+      var marker = new kakao.maps.Marker({
+        position: markerPosition,
+      });
+      marker.setMap(map);
+    }
+  </script>
+</html>
