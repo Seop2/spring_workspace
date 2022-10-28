@@ -3,6 +3,9 @@ package com.dw.emp.conf;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -10,6 +13,9 @@ import org.springframework.web.servlet.ModelAndView;
 //어떤 요청이 오든 method,url,ip를 알고싶다...
 //HttpServletRequest를 메소드 마다 만드는 건 비효율적이라고 생각함
 //
+
+import com.dw.emp.mapper.LogsMapper;
+import com.dw.emp.vo.LogsVO;
 
 //Spring 인터셉터
 //Spring에서 모든 사용자 요청을 인터셉터 한다
@@ -31,19 +37,40 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Component
 public class Interceptor implements HandlerInterceptor{
+	@Autowired 
+	private LogsMapper logsMapper;
+	private final Logger logger = LoggerFactory.getLogger(Interceptor.class);
+	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		System.out.println("==========================================preHandle");
+		//이제 System.out.println()은 그만!
+		//logger를 이용해서 기록을 남기자
+		//logger를 이용하면 원하는 레벨에 맞게 출력이 가능하다
+		//레벨? (디버깅 모드, 경고 모드, 출력 모드)
+//		logger.debug("디버그 전용 메세지");
+//		logger.warn("경고!");
+		logger.info("==========================================preHandle");
 		String requestUrl = request.getRequestURI();//접속 url호출
 		String httpMethod = request.getMethod();//http 메소드 호출
 		String userIP = request.getHeader("X-Forwarded-For");
 		if(userIP == null)userIP = request.getRemoteAddr();
 		
-		System.out.println("요청 url: "+ requestUrl);
-		System.out.println("요청 HTTP Method: "+ httpMethod);
-		System.out.println("사용자 IP: "+ userIP);
-		System.out.println("==========================================preHandle");
+		logger.info("요청 url: "+ requestUrl);
+		logger.info("요청 HTTP Method: "+ httpMethod);
+		logger.info("사용자 IP: "+ userIP);
+		logger.info("==========================================preHandle");
+		
+		
+		LogsVO logVO = new LogsVO();
+		//logVO.setHttpMethod(httpMethod);
+		logVO.setHttpMethod(httpMethod);
+		logVO.setIp(userIP);
+		logVO.setUrl(requestUrl);
+		
+		logsMapper.InsertLogs(logVO);//접속 로그 insert!
+		
+		
 		return true;
 	}
 
